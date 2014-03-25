@@ -1,0 +1,4 @@
+kptup-redmineplugin
+===================
+
+kptupというredmineプラグインです
