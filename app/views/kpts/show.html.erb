@@ -1,0 +1,105 @@
+<style type="text/css">
+    .line {
+        float: left;
+        width: 100%;
+    }
+    .box {
+        float: left;
+        width: 32%;
+    }
+    .boxContainer {
+        overflow: hidden;
+    }
+    /* clearfix */
+    .boxContainer:before, .boxContainer:after {
+        content: "";
+        display: table;
+    }
+    .boxContainer:after {
+        clear: both;
+    }
+    table th {
+        color: #FFFFFF;
+    }
+    /* For IE 6/7 (trigger hasLayout) */
+    .boxContainer {
+        zoom: 1;
+    }
+</style>
+
+<% @versions.each do |version| %>
+<br />　
+<table width="100%" bgcolor="#eeeeee">
+    <tr>
+        <td style ="font-size:15px"> <%= version.name %></td>
+    </tr>
+</table>
+
+<%= form_tag({  :action => 'create' }) do %>
+<p>
+    <%= text_field_tag :name, '',  :size => "80"  %>
+    <%= select :kptdiv, :kptdiv, [["KEEP", "1"], ["PROBLEM", "2"], ["TRY", "3"], ] %>
+    <%= hidden_field_tag( :version_id , version.id) %>
+    <%= hidden_field_tag( :project_id , @project_id) %>
+    <%= submit_tag '登録' %>
+</p>
+<% end %>
+
+<div class ="line">
+    <div class="box">
+        <table width="100%">
+            <tbody>
+                <tr >
+                    <th  bgcolor="#2c85be">KEEP</th>
+                </tr>
+                <% version.kptview_keep.each do |f| %>
+                <tr>
+                    <td><%= f.content %>
+                    <%= link_to image_tag('/images/delete.png', { :border => '0', :alt => '削除'}), :action => :destroy,:delete_id => f.id,:project_id => @project_id  %>
+                    <%= link_to image_tag("/images/copy.png", { :border => '0', :alt => 'チケットを作成'}),  :action => :issues ,:subject => f.content,:project_id => @project_id  %>
+                    <hr size="1" color="#333333">
+                       </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <div class="box">
+        <table width="100%"><tbody>
+                <tr>
+
+                    <th bgcolor="#bf2a61">PROBLEM</th>
+                </tr>
+                <% version.kptview_problem.each do |f| %>
+                <tr>
+                    <td><%= f.content %>
+                    <%= link_to image_tag('/images/delete.png', { :border => '0', :alt => '削除'}), :action => :destroy,:delete_id => f.id,:project_id => @project_id  %>
+                    <%= link_to image_tag("/images/copy.png", { :border => '0', :alt => 'チケットを作成'}),  :action => :issues ,:subject => f.content,:project_id => @project_id  %>
+                    <hr size="1" color="#333333">
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <div class="box">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <th bgcolor="#4eb788">TRY</th>
+                </tr>
+                <% version.kptview_try.each do |f| %>
+                <tr>
+                    <td><%= f.content %>
+                    <%= link_to image_tag('/images/delete.png', { :border => '0', :alt => '削除'}), :action => :destroy,:delete_id => f.id,:project_id => @project_id  %>
+                    <%= link_to image_tag("/images/copy.png", { :border => '0', :alt => 'チケットを作成'}),  :action => :issues ,:subject => f.content,:project_id => @project_id  %>
+                        <hr size="1" color="#333333">
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<% end %>
